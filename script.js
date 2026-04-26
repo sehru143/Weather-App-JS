@@ -29,11 +29,11 @@ const getWeather = async () => {
     city = city.split(",")[0];
 
     const geoRes = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${city}`,
+      `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
     );
     const geoData = await geoRes.json();
 
-    if (!geoData.results) {
+    if (!geoData.results || geoData.results.length === 0) {
       results.textContent = "City not found!";
       weatherType.textContent = "";
       return;
@@ -42,7 +42,7 @@ const getWeather = async () => {
     const { latitude, longitude, name, country } = geoData.results[0];
 
     const weatherRes = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`,
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
     );
     const weatherData = await weatherRes.json();
 
@@ -57,6 +57,7 @@ const getWeather = async () => {
     }
 
     results.textContent = `${name}, ${country} → ${temp}°C`;
+
   } catch {
     results.textContent = "Error!";
     weatherType.textContent = "";
@@ -65,6 +66,7 @@ const getWeather = async () => {
     btn.innerText = "Search";
   }
 };
+
 
 userInput.addEventListener("input", () => {
   debounce(async () => {
@@ -76,14 +78,14 @@ userInput.addEventListener("input", () => {
     }
 
     const res = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${city}`,
+      `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
     );
     const data = await res.json();
 
     suggestions.innerHTML = "";
     selectedIndex = -1;
 
-    if (data.results) {
+    if (data.results && data.results.length > 0) {
       suggestionsList = data.results.slice(0, 5);
       suggestions.style.display = "block";
 
@@ -95,24 +97,40 @@ userInput.addEventListener("input", () => {
 
         suggestions.appendChild(li);
       });
+    } else {
+      suggestions.style.display = "none";
     }
   }, 400);
 });
+
+
 const selectCity = (index) => {
   const place = suggestionsList[index];
+
   userInput.value = `${place.name}, ${place.country}`;
   suggestions.style.display = "none";
+  suggestions.innerHTML = "";
+
   getWeather();
 };
+
 
 userInput.addEventListener("keydown", (e) => {
   const items = suggestions.querySelectorAll("li");
 
+  if (!items.length) return;
+
   if (e.key === "ArrowDown") {
     selectedIndex = (selectedIndex + 1) % items.length;
-  } else if (e.key === "ArrowUp") {
+  }
+
+  if (e.key === "ArrowUp") {
     selectedIndex = (selectedIndex - 1 + items.length) % items.length;
-  } else if (e.key === "Enter") {
+  }
+
+  if (e.key === "Enter") {
+    e.preventDefault();
+
     if (selectedIndex >= 0) {
       selectCity(selectedIndex);
     } else {
@@ -124,6 +142,7 @@ userInput.addEventListener("keydown", (e) => {
     item.classList.toggle("active", i === selectedIndex);
   });
 });
+
 
 btn.onclick = () => {
   suggestions.style.display = "none";

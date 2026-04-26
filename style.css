@@ -39,6 +39,7 @@ h1 {
 }
 
 .search-box input {
+  position: relative;
   flex: 1;
   height: 44px;
   border-radius: 14px;
@@ -47,6 +48,7 @@ h1 {
   background: rgba(255, 255, 255, 0.15);
   color: white;
   outline: none;
+  z-index: 2;
 }
 /* Search button */
 .search-box button {
@@ -75,23 +77,31 @@ h1 {
 /* Suggestions */
 #suggestions {
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 0;
   width: 100%;
-  padding-top: 44px;
+  margin-top: 6px;
+  /* padding-top: 44px; */
+  padding: 6px 0;
   background: rgba(255, 255, 255, 0.95);
+   backdrop-filter: blur(10px);
+   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   border-radius: 14px;
   list-style: none;
   display: none;
-  max-height: 200px;
+  max-height: 220px;
   overflow-y: auto;
-  z-index: 10;
+  /* z-index: 1; */
+  z-index: 1000;
+  display: none;
 }
 
 #suggestions li {
   padding: 10px;
   color: #333;
   cursor: pointer;
+   font-size: 14px;
+   transition: 0.2s;
 }
 
 #suggestions li:hover {
