@@ -1,33 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Weather App</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Weather Checker</h1>
 
+      <div class="search-box">
+        <input id="userInput" type="text" placeholder="Enter city name" />
+        <button id="weather-btn">Search</button>
 
-  <div class="container">
-    <h1>Weather Checker</h1>
+        <ul id="suggestions"></ul>
+      </div>
 
-    <div class="search-box">
-      <input id="userInput" type="text" placeholder="Enter city name" />
-      <button id="weather-btn">Get Weather</button>
+      <div class="result-box">
+        <p id="results"></p>
+        <p id="weatherType"></p>
+      </div>
+
+      <div class="footer">Powered by Open-Meteo</div>
     </div>
 
-    <div class="result-box">
-      <p id="results"></p>
-      <p id="weatherType"></p>
-    </div>
-
-    <div class="footer">
-      Built with Open-Meteo API
-    </div>
-  </div>
-
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
